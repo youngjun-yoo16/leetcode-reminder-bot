@@ -41,7 +41,7 @@ async def send_reminder():
 # Function to define the schedule for sending reminders at 9 PM every day
 def schedule_reminder():
     # Schedule the task to run every day at 9 PM (21:00)
-    schedule.every().day.at("05:50").do(
+    schedule.every().day.at("21:00").do(
         asyncio.run_coroutine_threadsafe, send_reminder(), client.loop
     )
 
