@@ -1,15 +1,15 @@
-import discord  # The main library to interact with Discord's API
-import asyncio  # To run asynchronous tasks like sending messages on schedule
-import schedule # To manage daily scheduling tasks
+import discord  
+import asyncio  
+import schedule 
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
-USER_ID = int(os.getenv('USER_ID'))
+USER_ID_1 = int(os.getenv('USER_ID_1'))  # First user ID
+USER_ID_2 = int(os.getenv('USER_ID_2'))  # Second user ID
 
 # Set up the bot with the appropriate intents to send and read messages
 intents = discord.Intents.default()
@@ -21,22 +21,22 @@ client = discord.Client(intents=intents)
 async def send_reminder():
     await client.wait_until_ready()  # Ensure bot is fully ready before sending a message
     channel = client.get_channel(CHANNEL_ID)
-    user = await client.fetch_user(USER_ID)
+    user1 = await client.fetch_user(USER_ID_1)
+    user2 = await client.fetch_user(USER_ID_2)
 
     # Log to check if the function is being called
-    print(f"Attempting to send reminder to {user} in {channel}")
+    print(f"Attempting to send reminder to {user1} and {user2} in {channel}")
 
-    if channel and user:
+    if channel and user1 and user2:
         try:
-            # Send a message to the channel and mention the user
-            await channel.send(f"{user.mention}, it's 9 PM! Time to solve a LeetCode problem! 🚀\n"
+            # Send a message to the channel and mention both users
+            await channel.send(f"{user1.mention} and {user2.mention}, it's 9 PM! Time to solve a LeetCode problem! 🚀\n"
                                f'💡 *Remember: One LeetCode a day keeps unemployment away!*')
-
             print("Reminder sent successfully")
         except Exception as e:
             print(f"Error sending reminder: {e}")
     else:
-        print("Channel or User not found")
+        print("Channel or Users not found")
 
 # Function to define the schedule for sending reminders at 9 PM every day
 def schedule_reminder():
@@ -59,7 +59,8 @@ async def on_ready():
     
     # Print channel and user to verify they are correct
     print(f"Channel: {client.get_channel(CHANNEL_ID)}")
-    print(f"User: {await client.fetch_user(USER_ID)}")
+    print(f"User 1: {await client.fetch_user(USER_ID_1)}")
+    print(f"User 2: {await client.fetch_user(USER_ID_2)}")
     
     # Start scheduling the reminder
     schedule_reminder()
