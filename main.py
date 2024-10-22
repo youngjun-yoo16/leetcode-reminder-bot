@@ -2,6 +2,7 @@ import discord
 import asyncio  
 import schedule 
 import random
+import time
 from dotenv import load_dotenv
 import os
 
@@ -119,10 +120,30 @@ async def on_ready():
     # Start the scheduled task loop
     client.loop.create_task(scheduled_task())
 
-# Event when bot gets disconnected
+# Handle disconnect event to log disconnections
 @client.event
 async def on_disconnect():
-    print("Bot disconnected from Discord")
+    print("Bot disconnected from Discord. Attempting to reconnect...")
+    
+# Handle reconnection or session resuming event
+@client.event
+async def on_resumed():
+    print("Bot reconnected and resumed session.")
 
-# Start the bot using the token
-client.run(TOKEN)
+# Event when bot gets disconnected and attempts to reconnect automatically
+@client.event
+async def on_error(event, *args, **kwargs):
+    print(f"An error occurred: {event} - {args if args else ''} {kwargs if kwargs else ''}")
+
+# Run the bot with an auto-reconnect mechanism
+def run_bot():
+    while True:
+        try:
+            client.run(TOKEN)
+        except Exception as e:
+            print(f"Bot encountered an error: {e}")
+            print("Reconnecting in 5 seconds...")
+            time.sleep(5)  # Wait before attempting to reconnect
+
+if __name__ == "__main__":
+    run_bot()
