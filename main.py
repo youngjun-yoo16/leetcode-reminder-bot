@@ -64,6 +64,7 @@ motivational_messages = [
     "LeetCode now or prepare to explain that gap on your resume. 😬",
     "Your future self is watching - solve that problem! 👀",
     "LeetCode now or practice saying, 'Do you want fries with that?' 🍟"
+    "If you want a software engineer boyfriend/girlfriend, you need to be a software engineer first. 💻❤️"
 ]
 
 # Function to send the daily reminder
@@ -82,7 +83,7 @@ async def send_reminder():
             message = random.choice(motivational_messages)
             
             # Send a message to the channel and mention both users
-            await channel.send(f"{user1.mention} and {user2.mention}, it's 9 PM! Time to solve a LeetCode problem! 🚀\n"
+            await channel.send(f"{user1.mention} and {user2.mention}, it's 11:44 PM! Time to solve a LeetCode problem! 🚀\n"
                                f'💡 *{message}*')
             print("Reminder sent successfully")
         except Exception as e:
