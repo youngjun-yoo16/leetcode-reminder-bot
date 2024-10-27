@@ -83,7 +83,7 @@ async def send_reminder():
             message = random.choice(motivational_messages)
             
             # Send a message to the channel and mention both users
-            await channel.send(f"{user1.mention} and {user2.mention}, it's 11:44 PM! Time to solve a LeetCode problem! 🚀\n"
+            await channel.send(f"{user1.mention} and {user2.mention}, it's 09:00 PM! Time to solve a LeetCode problem! 🚀\n"
                                f'💡 *{message}*')
             print("Reminder sent successfully")
         except Exception as e:
